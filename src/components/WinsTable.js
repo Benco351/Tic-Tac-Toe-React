@@ -7,14 +7,23 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { useContext } from "react";
 import GamesContexts from "./GamesContext";
+const parseJson = (elem) => {
+  try {
+    return JSON.parse(elem, (key, value) => {
+      if (typeof value !== "string") return value;
+      return value.replace(/^"(.*)"$/, "$1")
+    });
+  } catch (e) {
+    return null;
+  }
+}
 const WinTable = () => {
     const {Games } = useContext(GamesContexts);
-    
     let GamesArrayWinner = {};
     let i = 0;
     Games.forEach((elem) => {
-      const data = JSON.parse(elem);
-      GamesArrayWinner[i++] = {Winner: data.Winner, Date: data.GameDate};
+      const data = elem;
+      if(data) GamesArrayWinner[i++] = {Winner: data.Winner, Date: data.GameDate};
     });
     return (
 

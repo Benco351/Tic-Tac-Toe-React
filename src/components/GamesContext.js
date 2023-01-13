@@ -12,15 +12,19 @@ export const GamesContext=({children}) =>{
         response.data.forEach(element => {
               data.push(element);
         })
-        setGames(...Games,data);
+        setGames([...Games,data]);
       })
     },[]);
 
     useEffect(() =>{
-     axios.post('http://localhost:8082/',Games);
+      if(Games.length>0)
+      {
+        axios.post('http://localhost:8082/',Games);
+
+      }
     },[Games]);
     const saveGame =(obj)=>{
-      setGames((games)=> [...games,JSON.stringify(obj)]);
+      setGames((games)=> [...games,obj]);
     }
     return (
         <GamesContexts.Provider value={{Games,saveGame}}>

@@ -8,24 +8,22 @@ import { useContext } from "react";
 import GamesContexts from "./GamesContext";
 import WinTable from "./WinsTable";
 const Board = () => {
-  const {saveGame } = useContext(GamesContexts);
-  let winObj = {};
   const location = useLocation();
+  const { saveGame } = useContext(GamesContexts);
+  let winObj = {};
   const firstName = location.state.name1;
   const secondName = location.state.name2;
   const [board, setBoard] = useState(["", "", "", "", "", "", "", "", ""]);
   const [player, setPlayer] = useState("O");
   const [result, setResult] = useState({ winner: "none", state: "none" });
- 
+
+  const restartGame = () => {
+    setBoard(["", "", "", "", "", "", "", "", ""]);
+    setPlayer("O");
+  };
   useEffect(() => {
     checkWin();
     checkIfTie();
-
-    if (player === "X") {
-      setPlayer("O");
-    } else {
-      setPlayer("X");
-    }
   }, [board]);
 
   useEffect(() => {
@@ -34,17 +32,6 @@ const Board = () => {
       restartGame();
     }
   }, [result]);
-
-  const chooseSquare = (square) => {
-    setBoard(
-      board.map((val, idx) => {
-        if (idx === square && val === "") {
-          return player;
-        }
-        return val;
-      })
-    );
-  };
 
   const checkWin = () => {
     Patterns.forEach((currPattern) => {
@@ -80,74 +67,48 @@ const Board = () => {
       saveGame(winObj);
     }
   };
-  const restartGame = () => {
-    setBoard(["", "", "", "", "", "", "", "", ""]);
-    setPlayer("O");
+  const chooseSquare = (square) => {
+    setBoard(
+      board.map((val, idx) => {
+        if (idx === square && val === "") {
+          return player;
+        }
+        return val;
+      })
+    );
+    if (player === "X") {
+      setPlayer("O");
+    } else {
+      setPlayer("X");
+    }
   };
+
   return (
 
     <>
-
-
-
       <div className="container">
-
         <h1>
           {firstName} versus {secondName}
         </h1>
-      </div><div className="App">
+      </div>
+      <div className="App">
         <div className="board">
-          <div className="row">
-            <Square
-              val={board[0]}
-              chooseSquare={() => {
-                chooseSquare(0);
-              }} />
-            <Square
-              val={board[1]}
-              chooseSquare={() => {
-                chooseSquare(1);
-              }} />
-            <Square
-              val={board[2]}
-              chooseSquare={() => {
-                chooseSquare(2);
-              }} />
-          </div>
-          <div className="row">
-            <Square
-              val={board[3]}
-              chooseSquare={() => {
-                chooseSquare(3);
-              }} />
-            <Square
-              val={board[4]}
-              chooseSquare={() => {
-                chooseSquare(4);
-              }} />
-            <Square
-              val={board[5]}
-              chooseSquare={() => {
-                chooseSquare(5);
-              }} />
-          </div>
-          <div className="row">
-            <Square
-              val={board[6]}
-              chooseSquare={() => {
-                chooseSquare(6);
-              }} />
-            <Square
-              val={board[7]}
-              chooseSquare={() => {
-                chooseSquare(7);
-              }} />
-            <Square
-              val={board[8]}
-              chooseSquare={() => {
-                chooseSquare(8);
-              }} />
-          </div>
+          {Array(3).fill(null).map((_, row) => (
+            <div key={row} className="row">
+              {Array(3).fill(null).map((__, col) => {
+                const idx = row * 3 + col;
+                return (
+                  <Square
+                    key={idx}
+                    val={board[idx]}
+                    chooseSquare={() => {
+                      chooseSquare(idx);
+                    }}
+                  />
+                );
+              })}
+            </div>
+          ))}
         </div>
         <h2>CurrPlayer: {player === "X" ? firstName : secondName}</h2>
         <button
@@ -158,13 +119,11 @@ const Board = () => {
         >
           Restart
         </button>
-        </div>
-        <div className="table">
-   
-        <WinTable/>
-
-        </div>
-       </>
+      </div>
+      <div className="table">
+        <WinTable />
+      </div>
+    </>
 
 
   );

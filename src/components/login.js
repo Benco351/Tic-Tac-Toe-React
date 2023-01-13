@@ -1,32 +1,11 @@
 import { Grid } from "@material-ui/core";
 import React, { useState, useEffect } from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Input from "@material-ui/core/Input";
 import { useNavigate } from "react-router-dom";
-const useStyles = makeStyles({
-  divider: {
-    width: "100%",
-    height: "0.1ch",
-    maxWidth: 1200,
-    backgroundColor: "theme.palette.background.paper",
-    margin: "11px 0px 11px 0px",
-  },
-  root: {
-    backgroundColor: "var(--main-color-regular-inner)",
-    width: "100%",
-    height: "100vh",
-    overflow: "hidden",
-  },
-  button: {
-    width: "100%",
-    height: "4ch",
-    maxWidth: 280,
-  },
-  title: {
-    fontFamily: "Segoe UI sans-serif",
-  },
-});
+import { useStyles } from '../assets/styles';
+
+
 
 const Login = () => {
   const history = useNavigate();

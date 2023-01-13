@@ -8,9 +8,9 @@ router.get('/', function(req, res, next) {
   const history = JSON.parse(data);
   res.json(history);
 });
-router.post('/',function(req,res,next) {
+router.post('/',function(req,res) {
   const data = req.body;
-  fs.writeFile('./history.json', JSON.stringify(data),(err) =>{
+  fs.writeFileSync('./history.json', JSON.stringify(data),(err) =>{
     if(err) throw err;
     console.log('Added data');
   });
