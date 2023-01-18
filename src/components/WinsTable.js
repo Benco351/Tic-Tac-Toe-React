@@ -7,23 +7,23 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { useContext } from "react";
 import GamesContexts from "./GamesContext";
-const parseJson = (elem) => {
-  try {
-    return JSON.parse(elem, (key, value) => {
-      if (typeof value !== "string") return value;
-      return value.replace(/^"(.*)"$/, "$1")
-    });
-  } catch (e) {
-    return null;
-  }
-}
+// const parseJson = (elem) => {
+//   try {
+//     return JSON.parse(elem, (key, value) => {
+//       if (typeof value !== "string") return value;
+//       return value.replace(/^"(.*)"$/, "$1")
+//     });
+//   } catch (e) {
+//     return null;
+//   }
+// }
 const WinTable = () => {
     const {Games } = useContext(GamesContexts);
     let GamesArrayWinner = {};
     let i = 0;
     Games.forEach((elem) => {
       const data = elem;
-      if(data) GamesArrayWinner[i++] = {Winner: data.Winner, Date: data.GameDate};
+      if(data) GamesArrayWinner[i++] = {winner: data.winner, gamedate: data.gamedate};
     });
     return (
 
@@ -42,9 +42,9 @@ const WinTable = () => {
                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                         >
                             <TableCell component="th" scope="row">
-                                {value.Winner}
+                                {value.winner}
                             </TableCell>
-                            <TableCell align="right">{value.Date}</TableCell>
+                            <TableCell align="right">{value.gamedate}</TableCell>
 
                         </TableRow>
                     ))}

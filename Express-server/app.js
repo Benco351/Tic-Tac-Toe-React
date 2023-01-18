@@ -1,9 +1,9 @@
+var cors = require('cors');
 var express = require('express');
 var indexRouter = require('./routes/index');
 var app = express();
-var cors = require('cors');
-app.use(cors());
 
+app.use(cors());
 app.use(express.json());
 app.use('/', indexRouter);
 
@@ -15,5 +15,7 @@ app.use(function(req, res, next) {
 });
 
 // error handler
-app.listen(8082);
+app.listen(8082,()=>{console.log("Server is ON")});
+//postgres connection
 module.exports = app;
+
